@@ -1,0 +1,26 @@
+package com.bdqa;
+
+import java.sql.Timestamp;
+import java.util.List;
+
+import org.apache.solr.client.solrj.beans.Field;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.FieldDefaults;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+public class goods {
+	
+	@Field private String id;
+	
+	@Field private List<String> name;
+	@Field private List<String> desc;
+	@Field private List<String> info;
+	@Field private List<String> update_time;
+}

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"        
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqa.comment.mapper.CommentMapper">
+    <resultMap type="comment" id="commentResult">
+    	<id property="id" column="c_id"/>
+    	<result property="content" column="c_content"/>
+    	<result property="replyId" column="reply_id"/>
+    	<result property="commentBy" column="comment_by"/>
+    	<result property="commentTime" column="comment_time"/>
+    	<result property="commentCount" column="commentCount"/>
+    	
+    	<association property="user" javaType="user"  resultMap="userResult"/>
+    </resultMap>
+
+    <resultMap type="user" id="userResult">
+       <id property="id" column="u_id"/>
+       <result property="userName" column="username"/>
+    </resultMap>
+    
+    
+	 <insert id="add">
+	 	insert into bdqa_comment(content , reply_id , comment_by , comment_time) 
+	 	values(#{content} , #{replyId} , #{commentBy} ,#{commentTime})
+	 </insert>
+	 
+	 
+	 <select id="queryCommByReplyId"  resultMap="commentResult">
+	  SELECT 
+     		u.id u_id,u.username ,
+     		c.id c_id, c.content c_content,c.reply_id ,c.comment_by , c.comment_time,
+     		(SELECT COUNT(*) FROM bdqa_comment WHERE  reply_id = c.reply_id)  commentCount
+ 		FROM bdqa_comment c , bdqa_user u 
+ 		WHERE  u.id = c.comment_by AND  c.reply_id = #{replyId}  
+ 		ORDER BY c.comment_time DESC LIMIT #{startIndex},#{pageSize};
+	 </select>
+</mapper>

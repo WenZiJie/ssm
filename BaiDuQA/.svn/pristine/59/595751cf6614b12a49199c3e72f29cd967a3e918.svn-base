@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"        
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqa.user.mapper.UserMapper">
+	<insert id="add" useGeneratedKeys="true" keyProperty="id" parameterType="user">
+		insert into bdqa_user(username,password,phone,email)
+		values(#{userName},#{passWord},#{phone},#{email})
+	</insert>
+
+	<select id="loginUser" resultType="user">
+		select * from bdqa_user where username = #{userName} and password = #{passWord}
+	</select>
+
+	<select id="queryUserByName" resultType="user">
+		select * from bdqa_user where username = #{userName}
+	</select>
+	
+	<update id="updateUserAction">
+	    update bdqa_user set last_login_ip = #{lastLoginIp} , last_login_time = #{lastLoginTime} where id =#{userId}
+	</update>
+
+	<update id="updateUserState">
+	    update bdqa_user set state = 1 where id = #{userId}
+	</update>
+</mapper>

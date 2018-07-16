@@ -1,0 +1,40 @@
+package com.bdqa.question.domain;
+
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.solr.client.solrj.beans.Field;
+
+import com.bdqa.reply.domain.Reply;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+/**
+ * 问题类
+ *    描述:用户发布了问题
+ * @author SDJX
+ *
+ */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+public class Question {
+	
+	@Field private String id;//问题id
+	@Field private String title;//问题标题
+	@Field private String content;//问题内容
+	@Field private String plugImg;//问题插图
+	@Field private String questionTag;//问题标签
+	@Field private Integer visits;//问题浏览次数
+	@Field private String submitterId;//提交者id(取自于user——id)
+	@Field private String submitterName;//提交者名字
+	@Field private Date submitterTime;//提交时间  
+	@Field private Date updateTime;//数据更新时间  
+   private Integer replyCount;//问题回答数
+   private List<Reply> replyList;//问题下面的回答
+}

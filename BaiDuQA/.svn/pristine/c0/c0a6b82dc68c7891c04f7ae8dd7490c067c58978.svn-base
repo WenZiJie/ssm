@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"        
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqa.tag.mapper.TagMapper">
+      <resultMap type="tag" id="tagResult">
+      		<id property="id" column="t_id"/>
+      		<result  property="tagLevel" column="tag_level"/>
+      		<result  property="tagName" column="tag_name"/>
+      		<result  property="tagPath" column="tag_path"/>
+      </resultMap>
+
+	   <select id="queryTagByPath" resultMap="tagResult">
+	      select t.id t_id , t.tag_level , t.tag_name , t.tag_path  
+	      from bdqa_tag t       
+	      WHERE tag_path REGEXP concat('^',#{tagPath},'\[1-9]+\/$')
+	   </select>
+	   
+	   	   <select id="queryTagById" resultMap="tagResult">
+	      select t.id t_id , t.tag_level , t.tag_name , t.tag_path  
+	      from bdqa_tag t where t.id = #{tag}       
+	   </select>
+</mapper>

@@ -1,0 +1,17 @@
+D:\mavens\bd-parent\bd-common\src\main\java\com\bdqa\reply\domain\Reply.java
+D:\mavens\bd-parent\bd-common\src\main\java\com\bdqa\comment\domain\Comment.java
+D:\mavens\bd-parent\bd-common\src\main\java\com\bdqa\common\util\SendEmail.java
+D:\mavens\bd-parent\bd-common\src\main\java\com\bdqa\common\util\Base64Utils.java
+D:\mavens\bd-parent\bd-common\src\main\java\com\bdqa\reply\service\ReplyService.java
+D:\mavens\bd-parent\bd-common\src\main\java\com\bdqa\common\util\RSACryptography.java
+D:\mavens\bd-parent\bd-common\src\main\java\com\bdqa\tag\service\TagService.java
+D:\mavens\bd-parent\bd-common\src\main\java\com\bdqa\comment\service\CommentService.java
+D:\mavens\bd-parent\bd-common\src\main\java\com\bdqa\question\service\QuestionService.java
+D:\mavens\bd-parent\bd-common\src\main\java\com\bdqa\common\util\DESUtil.java
+D:\mavens\bd-parent\bd-common\src\main\java\com\bdqa\tag\domain\Tag.java
+D:\mavens\bd-parent\bd-common\src\main\java\com\bdqa\user\domain\User.java
+D:\mavens\bd-parent\bd-common\src\main\java\com\bdqa\web\vo\QuestionVo.java
+D:\mavens\bd-parent\bd-common\src\main\java\com\bdqa\common\util\Constants.java
+D:\mavens\bd-parent\bd-common\src\main\java\com\bdqa\question\domain\Question.java
+D:\mavens\bd-parent\bd-common\src\main\java\com\bdqa\common\util\VerifyCodeUtils.java
+D:\mavens\bd-parent\bd-common\src\main\java\com\bdqa\user\service\UserService.java

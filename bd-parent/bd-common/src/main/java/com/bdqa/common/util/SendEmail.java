@@ -1,0 +1,76 @@
+package com.bdqa.common.util;
+
+import java.util.Properties;
+
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+import com.sun.mail.util.MailSSLSocketFactory;
+
+public class SendEmail {
+	public static void sendEmail(String email,String url,String title,String content) throws Exception {
+
+        // 发件人电子邮箱
+        String from = "965401342@qq.com";
+
+        // 指定发送邮件的主机为 smtp.qq.com
+        String host = "smtp.qq.com";  //QQ 邮件服务器
+
+        // 获取系统属性
+        Properties properties = System.getProperties();
+
+        // 设置邮件服务器
+        properties.setProperty("mail.smtp.host", host);
+
+        properties.put("mail.smtp.auth", "true");
+        MailSSLSocketFactory sf = new MailSSLSocketFactory();
+        sf.setTrustAllHosts(true);
+        properties.put("mail.smtp.ssl.enable", "true");
+        properties.put("mail.smtp.ssl.socketFactory", sf);
+        // 获取默认session对象
+        Session session = Session.getDefaultInstance(properties,new Authenticator(){
+            public PasswordAuthentication getPasswordAuthentication(){
+            	PasswordAuthentication passwordAuthentication = null;
+                try {
+                	passwordAuthentication =  new PasswordAuthentication("965401342@qq.com", "qzmczntenfzzbbhc");
+				} catch (Exception e) {
+					e.printStackTrace();
+				} //发件人邮件用户名、密码
+                return passwordAuthentication;
+            }
+            
+        });
+
+        try{
+            // 创建默认的 MimeMessage 对象
+            MimeMessage message = new MimeMessage(session);
+
+            // Set From: 头部头字段
+            message.setFrom(new InternetAddress(from));
+
+            // Set To: 头部头字段
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+
+            // Set Subject: 头部头字段
+            message.setSubject(title);
+
+            // 设置消息体
+            message.setContent("<html lang='zh-CN'><head ><meta charset='utf-8'>"
+    				+ "</head><body>"+content
+    				+ "<a href='http://localhost/user"+url+"'>"+content+"</a></body></html>",
+    				"text/html;charset=utf-8");
+    		//不被当作垃圾邮件的关键代码--Begin ，如果不加这些代码，发送的邮件会自动进入对方的垃圾邮件列表
+            // 发送消息
+            Transport.send(message);
+            System.out.println("Sent message successfully....from runoob.com");
+        }catch (MessagingException mex) {
+            mex.printStackTrace();
+        }
+    }   
+}

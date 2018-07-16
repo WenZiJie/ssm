@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"        
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqa.question.mapper.QuestionMapper">
+
+	<resultMap type="question" id="questionResult">
+		<id property="id" column="q_id" />
+		<result property="title" column="q_title" />
+		<result property="content" column="q_content" />
+		<result property="plugImg" column="q_plugImg" />
+		<result property="visits" column="visits" />
+		<result property="questionTag" column="question_tag" />
+		<result property="submitterId" column="submitter_id" />
+		<result property="submitterName" column="submitter_name" />
+		<result property="submitterTime" column="submitter_time" />
+		
+		<result property="replyCount" column="replyCount" /><!-- 问题回答数 -->
+		<collection property="replyList" ofType="reply" resultMap="replyResult"/><!-- 问题下的所有回答 -->
+	</resultMap>
+
+	<resultMap type="reply" id="replyResult">
+		<id property="id" column="r_id" />
+		<result property="content" column="r_content" />
+		<result property="plugImg" column="r_plugImg" />
+		<result property="like" column="like" />
+		<result property="dislike" column="dislike" />
+		<result property="questionId" column="question_id" />
+		<result property="replyerId" column="replyer_id" />
+		<result property="replyerName" column="replyer_name" />
+		<result property="replyTime" column="reply_time" />
+		<result property="commentCount" column="commentCount" />
+	</resultMap>
+       
+<!--  分页查询所有问题 和问题的评论数 -->
+<!--  先按回答时间和回答数,倒叙查询 -->
+  <select id="queryAll" resultMap="questionResult">
+         SELECT * FROM (
+            SELECT 
+                q.id q_id , q.title q_title , q.question_tag , q.submitter_time, q.submitter_id, q.submitter_name , COUNT(r.id) replyCount ,q.visits
+            FROM  bdqa_question q LEFT JOIN bdqa_reply r ON q.id = r.question_id
+            GROUP BY q.id 
+            ORDER BY submitter_time DESC,replyCount DESC
+   			LIMIT #{startIndex},#{pageSize}
+         ) q2 
+   		<where>
+   			<if test="title!=null and title!=''">
+   			 	q2.q_title  LIKE CONCAT ('%',#{title},'%')
+   			</if>
+   		</where>
+   			<if test="type=='hot'">
+   			 	HAVING q2.visits > 10
+   			</if>
+   			<if test="type=='feed'">
+   			 	HAVING replyCount > 10
+   			</if>
+	</select>
+	
+	
+	<!-- 分页查询 指定问题id 下的所有答案 -->
+    <select id="queryQuestionReplyById" resultMap="questionResult">
+		SELECT * FROM (    
+	  		SELECT 
+				q.id  q_id , q.title q_title, q.content q_content, q.plug_img q_plugImg ,  
+				q.question_tag , q.visits , q.submitter_id , q.submitter_name , q.submitter_time,
+				r.id  r_id , r.content r_content , r.plug_img r_plugImg , 
+				r.like , r.dislike , r.replyer_id , r.replyer_name , r.reply_time ,
+				(SELECT COUNT(*) FROM bdqa_reply WHERE question_id = q.id) replyCount,
+				(SELECT COUNT(*) FROM bdqa_comment WHERE reply_id = r.id ) commentCount
+			FROM  bdqa_question q LEFT JOIN  bdqa_reply r 
+			ON q.id = r.question_id
+      
+ 		) qr WHERE qr.q_id = #{questionId}  
+ 		     ORDER BY qr.reply_time DESC ,qr.like DESC  
+ 		     LIMIT #{startIndex},#{pageSize}
+    </select>
+    
+    
+    
+    <insert id="addQuestion" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+    	insert into 
+    	bdqa_question(title,content,plug_img,question_tag,submitter_id,submitter_name,submitter_time)
+    	values(#{title},#{content},#{plugImg},#{questionTag},#{submitterId},#{submitterName},now())
+    </insert>
+    
+    
+    <update id="updateQuestionVisitsById" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+    	UPDATE bdqa_question SET visits = #{visits} WHERE id = #{id}
+    </update>
+</mapper>

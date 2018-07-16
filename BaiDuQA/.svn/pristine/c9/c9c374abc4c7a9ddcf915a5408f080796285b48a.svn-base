@@ -1,0 +1,47 @@
+$("#submit-btn").on('click',function(e){
+    
+	var questionObj ={
+			//获取问题标题
+    		title : $("#title-area").val(),
+    		//获取问题的描述
+    		content :$('#content-area').val()
+    }
+	
+	if(questionObj.title.length<=10){
+		alert("问题长度太短");
+		return;
+	}
+	
+	
+	//配置ajax参数
+	var settings = {
+			type : 'post',
+			url : '/question/add',
+			data : questionObj,
+			dataType:"json",
+			success : function(data,textStatus,jqXHR ){
+				//如果没有登录
+				if(data.result=="no-login"){
+					//显示遮罩层,模态框
+					showLoginModal();
+					return;
+				}
+				
+				if(data.result=="true"){
+					var questionId = data.questionId;
+					location.href="/question/"+questionId;
+				}
+				
+	
+			},
+			error :function(jqXHR,textStatus,errorThrown ){
+				console.log("服务器异常");
+			}
+	}
+
+	//提交后台
+	$.ajax(settings);
+	
+})
+
+

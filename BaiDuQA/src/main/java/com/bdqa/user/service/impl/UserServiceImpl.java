@@ -1,0 +1,56 @@
+package com.bdqa.user.service.impl;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Service;
+
+import com.bdqa.user.domain.User;
+import com.bdqa.user.mapper.UserMapper;
+import com.bdqa.user.service.UserService;
+@Service
+public class UserServiceImpl implements UserService {
+    
+	@Autowired
+	private UserMapper userMapper;
+
+	@Override
+	public int add(User user) {
+		int result = userMapper.add(user);
+		return result;
+	}
+
+	@Override
+	public User loginUser(String userName,String passWord) {
+		User user = userMapper.loginUser(userName,passWord);
+		return user;
+	}
+
+	@Override
+	public User queryUserByName(String userName) {
+		return  userMapper.queryUserByName(userName);
+	}
+
+	@Override
+	public int updateUserAction(String lastLoginIp, String lastLoginTime, Integer userId) {
+			int result = userMapper.updateUserAction(lastLoginIp, lastLoginTime, userId);
+	 	return result;
+	}
+
+	@Override
+	public int updateUserState(int id) {
+		int result = userMapper.updateUserState(id);
+	 	return result;
+	}
+
+	@Override
+	public int updateUserPassword(User user) {
+		System.out.println(user);
+		int result = userMapper.updateUserPassword(user);
+	 	return result;
+	}
+	
+	
+	
+}

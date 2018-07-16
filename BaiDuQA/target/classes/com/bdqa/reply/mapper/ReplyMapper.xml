@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"        
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqa.reply.mapper.ReplyMapper">
+	  <insert id="add">
+	  insert into bdqa_reply(content,question_id,replyer_id,replyer_name,reply_time) 
+	      values(#{content} , #{questionId} ,#{replyerId} ,#{replyerName} ,#{replyTime})
+	  </insert>
+</mapper>

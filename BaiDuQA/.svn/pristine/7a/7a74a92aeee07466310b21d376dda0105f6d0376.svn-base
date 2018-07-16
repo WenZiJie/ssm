@@ -1,0 +1,32 @@
+package com.bdqa.tag.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.bdqa.tag.domain.Tag;
+import com.bdqa.tag.mapper.TagMapper;
+import com.bdqa.tag.service.TagService;
+@Service
+public class TagServiceImpl implements TagService{
+    
+	@Autowired
+	private TagMapper tagMapper;
+
+	@Override
+	public List<Tag> queryTagByPath(String tagPath) {
+		 List<Tag> tagLisst = tagMapper.queryTagByPath(tagPath);
+			return tagLisst;
+	}
+
+
+
+	@Override
+	public Tag queryTagById(Integer tagId) {
+		Tag tag = tagMapper.queryTagById(tagId);
+		return tag;
+	}
+
+	
+}
